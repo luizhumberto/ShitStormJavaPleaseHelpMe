@@ -1,0 +1,137 @@
+package exercicio4;
+import java.util.Scanner;
+
+public class Exercicio4 {
+public static int op;
+static Scanner entrada = new Scanner(System.in);
+
+    public static void main(String[] args)
+    {
+       Estoque.inicializar();
+       do
+       {
+           menu();
+           op =entrada.nextInt();
+           switch(op)
+           {
+               case 1:reposição();break;
+               case 2:retirarproduto();break;
+               case 3:total_estoque();break;
+               case 4:break;
+               default:System.out.println("Opção Inválida!");break;
+           }
+               
+       } 
+       while(op!=4); 
+       
+    }
+    public static void menu()
+    {
+        System.out.println("MENU");
+        System.out.println("1-Reposição");
+        System.out.println("2-Retirar unidade");
+        System.out.println("3-Valor total do estoque");
+        System.out.println("4-Sair");
+    }
+    public static void reposição()
+    {
+        int i,num;
+        for(i=0;i<3;i++)
+        {
+          num = Estoque.estoque[i].getQuantidade_estoque();
+          if(num<10)
+          {
+              System.out.println("Produto "+Estoque.estoque[i].getNome()+" necessita de reposição! ");
+          }
+        }
+    }
+    public static void retirarproduto()
+    {
+        String prod;
+        int i,valor;
+        System.out.println("Insira o nome do produto que deseja retirar um item: ");
+        prod = entrada.next();
+        for(i=0;i<3;i++)
+        {
+           if(Estoque.estoque[i].getNome().equals(prod))
+           {
+               System.out.println("insira quantidade a ser retirada: ");
+               valor = entrada.nextInt();
+               Estoque.estoque[i].DiminuirQuant(valor);
+               System.out.println("Estoque atual: "+Estoque.estoque[i].getQuantidade_estoque());
+           }
+        }
+    }
+   public static void total_estoque()
+   {
+       double somatudo = 0;
+       int i;
+       for(i=0;i<3;i++)
+       {
+           somatudo += Estoque.estoque[i].valorestoque();
+       }
+       System.out.println("A soma do valor do estoque é: "+somatudo);
+   }
+}
+
+**************************************************************************
+package exercicio4;
+
+public class Estoque 
+{
+    final static private int MAXVET = 3;
+    static Produto estoque[] = new Produto[MAXVET];
+    public static void inicializar()
+{
+estoque[0] = new Produto("sapato",8,2.00);
+estoque[1] = new Produto("meia",11,1.00);
+estoque[2] = new Produto("chinelo",30,5.00);
+}
+}
+*************************************************************************
+
+public class Produto 
+{
+        private String nome;
+        private int quantidade_estoque;
+        private double preço;
+
+    public Produto(String nome, int quantidade_estoque, double preço) {
+        this.nome = nome;
+        this.quantidade_estoque = quantidade_estoque;
+        this.preço = preço;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getQuantidade_estoque() {
+        return quantidade_estoque;
+    }
+
+    public void setQuantidade_estoque(int quantidade_estoque) {
+        this.quantidade_estoque = quantidade_estoque;
+    }
+
+    public double getPreço() {
+        return preço;
+    }
+
+    public void setPreço(double preço) {
+        this.preço = preço;
+    }
+        
+    public void DiminuirQuant(int valor)
+    {
+        quantidade_estoque -= valor;
+    }
+    public Double valorestoque()
+    {
+        return(quantidade_estoque*preço);
+    }
+}
